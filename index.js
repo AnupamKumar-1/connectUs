@@ -1,6 +1,5 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-
 const app = express();
 const port = 10000;
 const expressLayouts = require('express-ejs-layouts');
@@ -28,8 +27,8 @@ app.set('views', './views');
 
 app.use(session({
     name: 'connectus',
-    // TODO change the secret before deployment in production mode
-    secret: 'blahsomething',
+    
+    secret: '1Sm:9j4Pp<+O`5zzp2{5|#o($?qr30OCg(>HUji#sL|c%|C[`Lq>BfF[Z.De7Zk',
     saveUninitialized: false,
     resave: false,
     cookie: {
