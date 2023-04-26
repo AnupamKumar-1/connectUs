@@ -23,7 +23,21 @@
                             <input type="hidden" name="post" value="<%= post._id %>" >
                             <input type="submit" value="Add Comment">
                         </form>
-
+                        <div class="post-comments-list">
+                            <ul id="post-comments-<%= post._id %>">
+                                <% for (comment of post.comments){%>
+                                    
+                                <p style="color: red;">
+                                    <%= comment.content %>
+                                    <br>
+                                    <small style="color: white;">
+                                        <%= comment.user.name %>
+                                    </small>
+                                </p>    
+                                <%} %>
+                            </ul>
+                        </div>
+                    </div>
                     <% } %>
                 </div>
                 

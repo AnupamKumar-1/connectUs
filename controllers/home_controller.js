@@ -1,20 +1,23 @@
 const Post = require('../models/post');
-const User = require("../models/user");
-const passport = require("../config/passport-local-strategy");
+const User = require('../models/user');
+const passport = require('../config/passport-local-strategy');
 
 module.exports.home = async function(req, res) {
-    try {
-      const posts = await Post.find().populate('user', 'name');
-        
-      return res.render('home', {
-        title: 'connectus | home',
-        posts,
-        
-        
-      });
-    } catch (err) {
-      console.error(err);
-      
-    }
-  };
+  try {
+    const posts = await Post.find().populate('user', 'name').populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: 'name'
+      }
+    });
 
+    return res.render('home', {
+      title: 'connectus | home',
+      posts
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error getting posts');
+  }
+};

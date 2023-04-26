@@ -12,6 +12,9 @@ module.exports.create = async function(req, res) {
         user: req.user._id
       });
 
+      // Populate the user field with the corresponding user document
+      await comment.populate('user');
+
       post.comments.push(comment);
       await post.save();
 
