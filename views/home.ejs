@@ -1,49 +1,89 @@
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
 <section id="feed-posts">
-    <h4>Posts</h4>
+   
     <% if(locals.user){ %>
-    <form action="/posts/create" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="<%= user.name%>, share your thoughts..."></textarea>
-        <input type="submit" value="Post">
-    </form>
-    <% } %>
-
-    <div id="posts-list-container">
-        <ul>
-            <% for(post of posts){ %>
-                
-            <li>
-               <small> <%=  post.user.name  %></small>
-               <br>
-                  <h3>  <%= post.content %></h3>
-                  <div class="post-comments">
-                    <% if (locals.user){ %>
-                        <form action="/comments/create" method="POST">
-                            <input type="text" name="content" placeholder="Type Here to add comment...">
-                            <input type="hidden" name="post" value="<%= post._id %>" >
-                            <input type="submit" value="Add Comment">
-                        </form>
-                        <div class="post-comments-list">
-                            <ul id="post-comments-<%= post._id %>">
-                                <% for (comment of post.comments){%>
-                                    
-                                <p style="color: red;">
-                                    <%= comment.content %>
-                                    <br>
-                                    <small style="color: white;">
-                                        <%= comment.user.name %>
-                                    </small>
-                                </p>    
-                                <%} %>
-                            </ul>
-                        </div>
+        <form action="/posts/create" style="
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    " id="new-post-form" method="POST">
+            <div class="form-group">
+                <div class="input-group">
+                    <textarea name="content" cols="30" rows="3" placeholder="<%= user.name%>, share your thoughts..." class="form-control"></textarea>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary animated fadeInRight">Post</button>
                     </div>
-                    <% } %>
                 </div>
-                
-            </li>
-                
-            <%} %>
-        </ul>
+            </div>
+        </form>
+    
+    <% } %>
+  
+    <div id="posts-list-container">
+      <div class="card-deck" style="display: flex;flex-direction: column;flex-wrap: wrap; align-content: space-around;">
+        <% for(post of posts){ %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.user.name %></h5>
+            <p class="card-text"><%= post.content %></p>
+            <% if (locals.user){ %>
+            <form action="/comments/create" method="POST">
+              <div class="form-group">
+                <input type="text" class="form-control" name="content" placeholder="Add a comment...">
+                <input type="hidden" name="post" value="<%= post._id %>">
+              </div>
+              <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#comments-modal-<%= post._id %>">
+              View Comments (<%= post.comments.length %>)
+            </button>
+            <% } %>
+          </div>
+        </div>
+  
+        <div class="modal fade" id="comments-modal-<%= post._id %>" tabindex="-1" role="dialog" aria-labelledby="comments-modal-label-<%= post._id %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="comments-modal-label-<%= post._id %>">Comments for <%= post.user.name %>'s post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <ul class="list-group">
+                  <% for (let i = post.comments.length - 1; i >= 0; i--) {
+                    const comment = post.comments[i];
+                  %>
+                  <li class="list-group-item">
+                    <%= comment.content %>
+                    <br>
+                    <small><%= comment.user.name %></small>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <% } %>
+      </div>
     </div>
-</section>
+  </section>
+  <script>
+	$(document).ready(function() {
+		$('.modal').modal('hide');
+	});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSKtx" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
