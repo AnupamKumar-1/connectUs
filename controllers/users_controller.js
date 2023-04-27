@@ -18,7 +18,7 @@ module.exports.signUp = function (req, res) {
 
 module.exports.signIn = function (req, res) {
     if (req.isAuthenticated()) {
-        return res.redirect('/users/profile');
+        return res.redirect('/');
     }
     return res.render('user_sign_in', {
         title: 'connectus | sign-in'
@@ -47,13 +47,13 @@ module.exports.create = async function (req, res) {
 
 // sign in and create a session for the user
 module.exports.createSession = function (req, res) {
-    return res.redirect('/users/profile');
+    return res.redirect('/');
 }
 
 module.exports.destroySession = function (req, res) {
     req.logout(function (err) {
         if (err) { return next(err); }
         
-        return res.redirect('/');
+        return res.redirect('/users/sign-in');
     });
 };

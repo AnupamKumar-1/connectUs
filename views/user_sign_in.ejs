@@ -1,13 +1,24 @@
 <link rel="stylesheet" href="/css/sign_in.css">
-
-    <form action="/users/create-session" method="post">
-        <div>
-            <input type="email" name="email" placeholder="email" required>
+<section>
+<div class="card bg-light animate__animated animate__fadeInUp">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-4">Sign in</h5>
+      <form action="/users/create-session" method="post">
+        <div class="form-group">
+          <input type="email" name="email" class="form-control" placeholder="Email" required>
         </div>
-        <div>
-            <input type="password" name="password" placeholder="password" required>
+        <div class="form-group">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-        <div>
-            <input type="submit" value="sign in">
-        </div>
-    </form>
+        <button type="submit" class="btn btn-primary btn-block mt-4">Sign in</button>
+      </form>
+      <div class="text-center mt-3">
+        <a href="#" class="text-muted">Forgot password?</a>
+      </div>
+      <div class="text-center mt-3">
+        Don't have an account? <a href="#" class="text-primary">Sign up</a>
+      </div>
+    </div>
+  </div>
+</section>
+  

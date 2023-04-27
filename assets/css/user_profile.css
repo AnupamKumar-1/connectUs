@@ -1,0 +1,141 @@
+/* Dashboard Wrapper */
+.dashboard-wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Dashboard Sidebar */
+  .dashboard-sidebar {
+    width: 200px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Dashboard Menu */
+  .dashboard-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dashboard-menu li {
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .dashboard-menu a:hover,
+  .dashboard-menu a.active {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .dashboard-menu a i {
+    margin-right: 10px;
+  }
+  
+  /* Dashboard Content */
+  .dashboard-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Dashboard Section */
+  .dashboard-section {
+    margin-bottom: 30px;
+  }
+  
+  .dashboard-section-title {
+    margin-bottom: 20px;
+  }
+  
+  /* Dashboard Form */
+  .dashboard-form {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+  }
+  
+  .dashboard-form .form-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .dashboard-form input[type="text"],
+  .dashboard-form input[type="email"],
+  .dashboard-form input[type="password"],
+  .dashboard-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .dashboard-form textarea {
+    height: 100px;
+  }
+  
+  .dashboard-form input[type="file"] {
+    display: none;
+  }
+  
+  .dashboard-form .btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .dashboard-form .btn:hover {
+    background-color: #555;
+  }
+  
+  .dashboard-form .btn:active {
+    transform: translateY(2px);
+  }
+  
+  /* Animations */
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .slide-in-from-left {
+    animation: slideInFromLeft 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease;
+  }
+  
