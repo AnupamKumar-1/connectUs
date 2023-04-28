@@ -10,7 +10,11 @@ const passportLocal = require('./config/passport-local-strategy');
 
 const path = require('path');
 const MongoStore = require('connect-mongo')(session);
-app.use(express.urlencoded());
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use(express.json());   
 app.use(cookieParser());
 
 app.use(express.static('./assets'));

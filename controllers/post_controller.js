@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 const User = require("../models/user");
 
@@ -16,3 +17,23 @@ module.exports.create = async function(req, res) {
         return res.status(500).send('Internal Server Error');
     }
 };
+
+module.exports.destroy = async function(req, res) {
+    try {
+      const post = await Post.findById(req.params.id);
+      if (post.user.toString() === req.user._id.toString()) {
+        await post.deleteOne();
+        await Comment.deleteMany({ post: req.params.id });
+        return res.redirect("back");
+      } else {
+        console.log('can not delete');
+        console.log('post.user', post.user);
+        console.log('req.user', req.user);
+        return res.redirect("back");
+      }
+    } catch (err) {
+      console.error(err);
+      return res.redirect("back");
+    }
+  };
+  
