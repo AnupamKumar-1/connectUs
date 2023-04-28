@@ -27,3 +27,18 @@ module.exports.create = async function(req, res) {
     res.status(500).send('Error creating comment');
   }
 };
+
+module.exports.destroy = async function(req, res){
+  try {
+    const comment = await Comment.findById(req.params.id);
+    if (comment.user.toString() === req.user.id.toString()) {
+      let postId = comment.post;
+      await comment.deleteOne();
+      await Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id }});
+    }
+    return res.redirect('back');
+  } catch (err) {
+    console.error(err);
+    return res.redirect('back');
+  }
+}

@@ -73,6 +73,13 @@
                     const comment = post.comments[i];
                   %>
                   <li class="list-group-item">
+                    <% if (locals.user && locals.user.id == comment.user.id){ %>
+                      <small>
+                          <a href="/comments/destroy/<%= comment.id %>">
+                            <i class="fa fa-trash-o" style="font-size:16px;color:red"></i>
+                          </a>
+                      </small>
+                      <% } %>
                     <%= comment.content %>
                     <br>
                     <small><%= comment.user.name %></small>
