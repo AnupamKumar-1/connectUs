@@ -5,3 +5,29 @@ body{
 li{
 list-style: none;
 }
+
+        #success-alert {
+            width: 300px; /* set the width of the notification */
+            animation: slideInRight 0.5s, fadeOut 0.5s 4.5s forwards; /* add animation */
+        }
+
+        /* define the slideInRight animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* define the fadeOut animation */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    

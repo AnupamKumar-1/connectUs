@@ -12,10 +12,13 @@ module.exports.home = async function(req, res) {
       }
     });
 
-    return res.render('home', {
-      title: 'connectus | home',
-      posts
-    });
+    let users = await User.find({});
+
+        return res.render('home', {
+            title: "connectus | Home",
+            posts:  posts,
+            all_users: users
+        });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error getting posts');

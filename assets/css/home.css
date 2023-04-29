@@ -1,0 +1,50 @@
+.display-screen {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    justify-content: space-around;
+    align-items: baseline;
+}
+.create-post{
+    display: flex;
+    padding-top: 20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+}
+.card-deck{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; 
+    align-content: space-around;
+}
+#user-friends {
+    border: 3px solid whitesmoke;
+    width: 20%;
+    padding-right: 0%;
+}
+
+.friend-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.friend {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.friend:hover {
+    transform: translateY(-5px);
+}
+
+.friend-title a {
+    color: blue;
+    text-decoration: none;
+}

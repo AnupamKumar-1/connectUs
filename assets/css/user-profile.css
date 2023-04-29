@@ -1,0 +1,42 @@
+section{
+    display: flex;
+    justify-content: center;
+    
+}
+body {
+    background-color: #f8f9fa;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="submit"] {
+    margin-top: 20px;
+}
+
+.form-group:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    
+    to {
+        opacity: 1;
+    }
+}

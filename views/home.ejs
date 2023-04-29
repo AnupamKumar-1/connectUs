@@ -1,18 +1,14 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/home.css">
 
 
-
+<div class="display-screen">
 <section id="feed-posts">
    
     <% if(locals.user){ %>
-      <form action="/posts/create" style="
-      display: flex;
-      padding-top: 20px;
-      justify-content: space-around;
-      flex-wrap: wrap;
-  " id="new-post-form" method="POST">
+      <form class="create-post" action="/posts/create" id="new-post-form" method="POST">
     <div class="form-group">
       <div class="input-group">
         <textarea name="content" id="content" cols="30" rows="3" placeholder="<%= user.name%>, share your thoughts..." class="form-control" required></textarea>
@@ -28,13 +24,13 @@
     <% } %>
   
     <div id="posts-list-container">
-      <div class="card-deck" style="display: flex;flex-direction: column;flex-wrap: wrap; align-content: space-around;">
+      <div class="card-deck" >
         <% for(post of posts){ %>
-        <div class="card mb-4">
+        <div class="card mb-4" id="post-<%= post._id%>">
           <div class="card-body">
             <%if(locals.user && locals.user.id === post.user.id){%> 
             <small>
-              <a href="/posts/destroy/<%= post.id %>">
+              <a class="delete-post-button" href="/posts/destroy/<%= post.id %>">
                 <i class="fa fa-trash-o" style="font-size:20px;color:red"></i>
               </a>
             </small>
@@ -98,11 +94,24 @@
       </div>
     </div>
   </section>
-  
- 
+  <section id="user-friends">
+    <h4 class="card-header">Friends</h4>
+    <div class="card-body">
+      <div class="friend-list">
+        <% for(u of all_users){%>
+          <div class="friend">
+            <div class="friend-title"><a href="/users/profile/<%= u.id %>"><%= u.name %></a></div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="/js/home_posts.js"></script>
