@@ -1,117 +1,188 @@
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/home.css">
 
 
+
 <div class="display-screen">
-<section id="feed-posts">
-   
+  <section>
+    <div class="container">
+      <div class="search-container">
+        <input type="text" class="search-input" id="search" placeholder="Search people">
+        <button class="search-button"><i class="fa fa-search"></i></button>
+      </div>
+      <ul id="friend-list" class="list-group"></ul>
+    </div>
+  </section>
+
+  <section id="feed-posts">
+
     <% if(locals.user){ %>
       <form class="create-post" action="/posts/create" id="new-post-form" method="POST">
-    <div class="form-group">
-      <div class="input-group">
-        <textarea name="content" id="content" cols="30" rows="3" placeholder="<%= user.name%>, share your thoughts..." class="form-control" required></textarea>
-       
-        <div class="input-group-append">
-         
-          <button type="submit" class="btn btn-primary animated fadeInRight">Post</button>
-        </div>
-      </div>
-    </div>
-  </form>
-    
-    <% } %>
+        <div class="form-group">
+          <div class="input-group">
+            <textarea name="content" id="content" cols="30" rows="3"
+              placeholder="Share your thoughts..." class="form-control" required></textarea>
   
-    <div id="posts-list-container">
-      <div class="card-deck" >
-        <% for(post of posts){ %>
-        <div class="card mb-4" id="post-<%= post._id%>">
-          <div class="card-body">
-            <%if(locals.user && locals.user.id === post.user.id){%> 
-            <small>
-              <a class="delete-post-button" href="/posts/destroy/<%= post.id %>">
-                <i class="fa fa-trash-o" style="font-size:20px;color:red"></i>
-              </a>
-            </small>
-            <%}%>
-            <h5 class="card-title"><%= post.user.name %> <span style="font-size: small;">created a post</span></h5>
-            <p class="card-text"><%= post.content %></p>
-            <% if (locals.user){ %>
-            <form action="/comments/create" method="POST">
-              <div class="form-group">
-                <input type="text" class="form-control" name="content" placeholder="Add a comment..." required>
-                <input type="hidden" name="post" value="<%= post._id %>" required>
-              </div>
-              <button type="submit" class="btn btn-primary">Post Comment</button>
-            </form>
-            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#comments-modal-<%= post._id %>">
-                <i class="fa fa-comments-o" style="font-size:30px;color:red"></i>
-                <%= post.comments.length %>
-            </button>
-            
-            <% } %>
-          </div>
-        </div>
-  
-        <div class="modal fade" id="comments-modal-<%= post._id %>" tabindex="-1" role="dialog" aria-labelledby="comments-modal-label-<%= post._id %>" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="comments-modal-label-<%= post._id %>">Comments for <%= post.user.name %>'s post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <ul class="list-group">
-                  <% for (let i = post.comments.length - 1; i >= 0; i--) {
-                    const comment = post.comments[i];
-                  %>
-                  <li class="list-group-item">
-                    <% if (locals.user && locals.user.id == comment.user.id){ %>
-                      <small>
-                          <a href="/comments/destroy/<%= comment.id %>">
-                            <i class="fa fa-trash-o" style="font-size:16px;color:red"></i>
-                          </a>
-                      </small>
-                      <% } %>
-                    <%= comment.content %>
-                    <br>
-                    <small><%= comment.user.name %></small>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary" id="emoji-picker-btn">
+                <i class="fa fa-smile-o"></i>
+              </button>
+              <button type="submit" class="btn btn-primary shadow-none animated fadeInRight">Post</button>
             </div>
           </div>
         </div>
+      </form>
   
-        <% } %>
-      </div>
-    </div>
+      <emoji-picker id="emoji-picker" class="emoji-picker" style="display: none;"></emoji-picker>
+
+      <% } %>
+
+        <div id="posts-list-container">
+          <div class="card-deck">
+            <% for (let i=posts.length - 1; i>= 0; i--) {
+              const post = posts[i];
+              %>
+              <div class="card mb-4" id="post-<%= post._id %>">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-2">
+                    <div class="card-title">
+                      <img class="img-post" src="<%= post.user.avatar %>" alt="<%= post.user.name %>">
+
+                      <%= post.user.name %>
+                        <span class="small">created a post</span>
+                    </div>
+                    <div class="dropdown">
+                      <button class="btn btn-link" type="button" id="post-<%= post._id %>-menu"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if (locals.user && locals.user.id===post.user.id) { %>
+                          <i class="fa fa-ellipsis-v"></i>
+                          <% } %>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="post-<%= post._id %>-menu">
+                        <% if (locals.user && locals.user.id===post.user.id) { %>
+                          <li>
+                            <a class="dropdown-item delete-post-button" href="/posts/destroy/<%= post.id %>">
+                              <i class="fa fa-trash me-2"></i>
+                            </a>
+                          </li>
+                          <% } %>
+                      </ul>
+                    </div>
+                  </div>
+                  <p class="card-text">
+                    <%= post.content %>
+                  </p>
+                  <% if (locals.user) { %>
+                    <form action="/comments/create" method="POST">
+                      <div class="row">
+                        <div class="col-md-9">
+                          <div class="form-group">
+                            <input type="text" class="form-control" name="content" placeholder="Add a comment..."
+                              required>
+                            <input type="hidden" name="post" value="<%= post._id %>" required>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <button type="submit" class="btn btn-primary btn-circle">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal"
+                      data-bs-target="#comments-modal-<%= post._id %>">
+                      <i class="fa fa-comments me-2"></i>
+                      <%= post.comments.length %>
+                    </button>
+                    <% } %>
+                </div>
+
+
+              </div>
+
+              <div class="modal fade" id="comments-modal-<%= post._id %>" tabindex="-1" role="dialog"
+                aria-labelledby="comments-modal-label-<%= post._id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="comments-modal-label-<%= post._id %>">Comments for <%= post.user.name
+                          %>'s post</h5>
+                    </div>
+                    <div class="modal-body">
+                      <ul class="list-group">
+                        <% for (let i=post.comments.length - 1; i>= 0; i--) {
+                          const comment = post.comments[i];
+                          %>
+                          <li class="list-group-item">
+                            <% if (locals.user && locals.user.id==comment.user.id){ %>
+                              <small>
+                                <a href="/comments/destroy/<%= comment.id %>">
+                                  <i class="fa fa-trash-o" style="font-size:16px;color:red"></i>
+                                </a>
+                              </small>
+                              <% } %>
+                                <%= comment.content %>
+                                  <br>
+                                  <small>
+                                    <%= comment.user.name %>
+                                  </small>
+                          </li>
+                          <% } %>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <% } %>
+          </div>
+        </div>
   </section>
   <section id="user-friends">
-    <h4 class="card-header">Friends</h4>
-    <div class="card-body">
-      <div class="friend-list">
-        <% for(u of all_users){%>
-          <div class="friend">
-            <div class="friend-title"><a href="/users/profile/<%= u.id %>"><%= u.name %></a></div>
-          </div>
+    <h4 class="fw-bold mb-4">Friends</h4>
+    <ul class="list-group list-group-flush">
+      <% for(u of all_users){%>
+        <li class="list-group-item">
+          <img src="<%= u.avatar %>" alt="<%= u.name %>" width="100">
+          <a href="/users/profile/<%= u.id %>" class="text-decoration-none text-dark">
+            <%= u.name %>
+          </a>
+        </li>
         <% } %>
-      </div>
-    </div>
+    </ul>
   </section>
 
+
+
 </div>
+<script>
+  const emojiPicker = document.querySelector('#emoji-picker');
+const emojiButton = document.querySelector('#emoji-picker-btn');
+const textarea = document.querySelector('#content');
 
+emojiButton.addEventListener('click', () => {
+  if (emojiPicker.style.display === 'block') {
+    emojiPicker.style.display = 'none';
+  } else {
+    emojiPicker.style.display = 'block';
+  }
 
+  emojiPicker.addEventListener('emoji-click', event => {
+    textarea.value += event.detail.unicode;
+  });
+});
+
+</script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="/js/home_posts.js"></script>

@@ -4,7 +4,13 @@ const passport = require('../config/passport-local-strategy');
 
 module.exports.home = async function(req, res) {
   try {
-    const posts = await Post.find().populate('user', 'name').populate({
+    const posts = await Post.find()
+    .sort('createdAt')
+    .populate({
+      path: 'user',
+      select: 'name avatar'
+    })
+    .populate({
       path: 'comments',
       populate: {
         path: 'user',

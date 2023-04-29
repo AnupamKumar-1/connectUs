@@ -1,5 +1,6 @@
 const User = require('../models/user');
-
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile = async function(req, res) {
     try {
@@ -13,20 +14,46 @@ module.exports.profile = async function(req, res) {
       
     }
   }
-exports.update = async function(req, res) {
-    try {
-      if (req.user.id == req.params.id) {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body);
+  module.exports.update = async function(req, res) {
+    if (req.user.id == req.params.id) {
+      try {
+        let user = await User.findById(req.params.id);
+        let avatarPath = user.avatar;
+  
+        User.uploadedAvatar(req, res, async function(err) {
+          if (err) {
+            console.log('*****Multer Error: ', err);
+          }
+  
+          user.name = req.body.name;
+          user.email = req.body.email;
+  
+          if (req.file) {
+            if (avatarPath) {
+              fs.unlinkSync(path.join(__dirname, '..', avatarPath));
+            }
+            // Save the path of the uploaded file into the avatar field in the user
+            user.avatar = User.avatarPath + '/' + req.file.filename;
+          }
+  
+          // Wait for the user to save before redirecting
+          await user.save();
+  
+          return res.redirect('back');
+        });
+      } catch (err) {
+        console.log(err);
         return res.redirect('back');
-      } else {
-        return res.status(401).send('Unauthorized');
       }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).send('Internal Server Error');
+    } else {
+      return res.status(401).send('Unauthorized');
     }
   };
   
+
+
+ 
+
 
 module.exports.signUp = function (req, res) {
     if (req.isAuthenticated()) {

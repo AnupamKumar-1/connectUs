@@ -57,6 +57,8 @@ app.use(passport.session());
 app.use(passport.setAuthenticatedUser);
 app.use(flash());
 app.use(customMware.setFlash);
+// make the uploads path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/', require('./routes'));
 
 
