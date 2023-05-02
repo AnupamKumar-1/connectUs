@@ -22,7 +22,7 @@ module.exports.profile = async function(req, res) {
   
         User.uploadedAvatar(req, res, async function(err) {
           if (err) {
-            console.log('*****Multer Error: ', err);
+            console.log('Multer Error: ', err);
           }
   
           user.name = req.body.name;
