@@ -24,8 +24,6 @@
         });
     }
 
-
-
     let newPostDom = function (post) {
 
         return $(`<div class="card mb-4" id="post-${post._id}">
@@ -56,7 +54,6 @@
           <i class="fa fa-comments-o" style="font-size:30px;color:red"></i>
           ${post.comments.length}
       </button>
-    
     </div>
   </div>`)
     }
@@ -80,8 +77,5 @@ let deletePost = function(deleteLink){
     });
 }
 
-
-
     createPost();
-
 }

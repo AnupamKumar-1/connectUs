@@ -1,9 +1,6 @@
 const passport = require('passport');
-
 const LocalStrategy = require('passport-local').Strategy;
-
 const User = require('../models/user');
-
 
 // authentication using passport
 passport.use(new LocalStrategy({
@@ -23,17 +20,12 @@ passport.use(new LocalStrategy({
             return done(err);
         }
     }
-
-
 ));
-
 
 // serializing the user to decide which key is to be kept in the cookies
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
-
-
 
 // deserializing the user from the key in the cookies
 const deserializeUser = async (id, done) => {
@@ -67,7 +59,5 @@ passport.setAuthenticatedUser = function(req, res, next){
 
     next();
 }
-
-
 
 module.exports = passport;

@@ -1,4 +1,3 @@
-
 <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -25,9 +24,9 @@
       <form class="create-post" action="/posts/create" id="new-post-form" method="POST">
         <div class="form-group">
           <div class="input-group">
-            <textarea name="content" id="content" cols="30" rows="3"
-              placeholder="Share your thoughts..." class="form-control" required></textarea>
-  
+            <textarea name="content" id="content" cols="30" rows="3" placeholder="Share your thoughts..."
+              class="form-control" required></textarea>
+
             <div class="input-group-append">
               <button type="button" class="btn btn-outline-secondary" id="emoji-picker-btn">
                 <i class="fa fa-smile-o"></i>
@@ -37,7 +36,7 @@
           </div>
         </div>
       </form>
-  
+
       <emoji-picker id="emoji-picker" class="emoji-picker" style="display: none;"></emoji-picker>
 
       <% } %>
@@ -164,20 +163,20 @@
 </div>
 <script>
   const emojiPicker = document.querySelector('#emoji-picker');
-const emojiButton = document.querySelector('#emoji-picker-btn');
-const textarea = document.querySelector('#content');
+  const emojiButton = document.querySelector('#emoji-picker-btn');
+  const textarea = document.querySelector('#content');
 
-emojiButton.addEventListener('click', () => {
-  if (emojiPicker.style.display === 'block') {
-    emojiPicker.style.display = 'none';
-  } else {
-    emojiPicker.style.display = 'block';
-  }
+  emojiButton.addEventListener('click', () => {
+    if (emojiPicker.style.display === 'block') {
+      emojiPicker.style.display = 'none';
+    } else {
+      emojiPicker.style.display = 'block';
+    }
 
-  emojiPicker.addEventListener('emoji-click', event => {
-    textarea.value += event.detail.unicode;
+    emojiPicker.addEventListener('emoji-click', event => {
+      textarea.value += event.detail.unicode;
+    });
   });
-});
 
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

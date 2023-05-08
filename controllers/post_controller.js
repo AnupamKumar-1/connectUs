@@ -10,7 +10,8 @@ module.exports.create = async function(req, res) {
       content: req.body.content,
       user: user._id
     });
-
+    await Post.populate(post, { path: 'user', select: 'name ' }); // Populate the user field with name and avatar fields
+    const populatedPost = await Post.findById(post._id).populate('user', 'name ');
     if (req.xhr) {
       return res.status(200).json({
         data: {
@@ -20,8 +21,7 @@ module.exports.create = async function(req, res) {
       });
     }
     console.log(post.user.avatar);
-    await Post.populate(post, { path: 'user', select: 'name ' }); // Populate the user field with name and avatar fields
-    const populatedPost = await Post.findById(post._id).populate('user', 'name ');
+   
     return res.status(200).json({
       data: {
         post: populatedPost

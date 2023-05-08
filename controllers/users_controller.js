@@ -2,6 +2,7 @@ const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
 
+// for user profile
 module.exports.profile = async function(req, res) {
     try {
       const user = await User.findById(req.params.id);
@@ -51,10 +52,7 @@ module.exports.profile = async function(req, res) {
   };
   
 
-
- 
-
-
+//For sign up page
 module.exports.signUp = function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect('/users/profile');
@@ -63,7 +61,7 @@ module.exports.signUp = function (req, res) {
         title: 'connectus | sign-up'
     })
 }
-
+// for sig in page
 module.exports.signIn = function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect('/');
@@ -98,7 +96,7 @@ module.exports.createSession = function (req, res) {
     req.flash('success','Logged in succesfully !');
     return res.redirect('/');
 }
-
+// for logout 
 module.exports.destroySession = function (req, res) {
     req.logout(function (err) {
         if (err) { return next(err); }
